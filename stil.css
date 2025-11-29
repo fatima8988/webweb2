@@ -1,0 +1,61 @@
+/* ======== Grundinställningar ======== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #000000;
+    color: #000000;
+}
+
+/* ======== Header ======== */
+header {
+    background: #d286be;
+    color: rgb(255, 255, 255);
+    padding: 20px;
+    text-align: center;
+}
+
+/* ======== Navigation ======== */
+nav {
+    background: #06090d;
+    text-align: center;
+    padding: 10px 0;
+    outline: #ffffff;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: inline-block;
+}
+
+nav a:hover, nav a.active {
+    background: #be3098;
+    border-radius: 4px;
+}
+
+/* ======== Main content ======== */
+main {
+    max-width: 900px;
+    margin: 20px auto;
+    background: rgb(255, 237, 249);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.hero {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* ======== Footer ======== */
+footer {
+    background: #d286be;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+}

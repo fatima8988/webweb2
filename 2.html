@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz</title>
+  <link rel="stylesheet" href="1style.css">
+  <style>
+    /* css*/
+    #quiz-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 420px;
+      margin: 1rem auto;
+    }
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      background: #f5f5f5;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      text-align: left;
+      min-height: 70px;
+    }
+    .option:hover { border-color: #000; background: #fff; transform: scale(1.02); }
+    .option input[type="radio"] { transform: scale(1.2); accent-color: #000; margin-top: 0.2rem; }
+    .option.selected { border-color: #000; background: #eaeaea; }
+    @media (max-width: 600px) {
+      #quiz-form { grid-template-columns: 1fr; }
+    }
+    .result-text { margin-top: 1rem; font-weight: bold; min-height: 1.5rem; text-align: center; }
+    .section-label { display:inline-block; background:#fff;color:#000;padding:0.3rem 0.8rem;border-radius:20px;margin:0 0 1rem 0;}
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <nav>
+      <ul>
+        <li><a href="1.html">Webbutveckling</a></li>
+        <li><a href="2.html" class="active">QUIZ</a></li>
+        <li><a href="matris.html">Matris</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="section-label" id="question-number">1 / 20</div>
+    <h2>Webbserverprogrammering</h2>
+
+    <div class="hero-content">
+      <div class="title">
+        <h1>PHP QUIZ</h1>
+      </div>
+
+      <!-- QUIZ BOX -->
+      <div class="info-box">
+        <h3 id="question-title">Loading...</h3>
+        <form id="quiz-form"></form>
+
+        <p id="result" class="result-text"></p>
+
+        <div style="display:flex;gap:.5rem;justify-content:center;margin-top:1rem;">
+          <button type="button" class="btn" id="submit-btn">Svar →</button>
+          <button type="button" class="btn" id="next-btn" style="display:none;">Nästa →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    
+  </footer>
+
+  <script>
+    // Kör scriptet 
+    document.addEventListener("DOMContentLoaded", () => {
+
+      const quizData = [
+        { question: "Vad står HTML och PHP för?",
+          options: [
+            "HTML står för HyperText Markup Language och PHP står för PHP Hypertext Preprocessor.",
+            "HTML står för HighTell Max Loop och PHP står för Pull High Power.",
+            "HTML står för Hypertext Preprocessor och PHP står för PHP HyperText Markup Language."
+          ], correct: 0
+        },
+        { question: "Vad är skillnaden mellan HTML och PHP??",
+          options: [
+          "HTML används för layout/design och php används för att skapa interaktiva sidor.",
+          "HTML används för att visa text, bilder och länkar på en webbsida och php används för att skapa dynamiskt innehåll.",
+          "Både HTML och PHP används för att göra interaktiva sidor"
+        ], correct: 1
+        },
+        { question: "Hur skriver du kommentarer i PHP?",
+          options: [
+            "//",
+            "{}",
+            ","
+          ], correct: 0
+        },
+        { question: "Vad betyder indentering?",
+          options: [
+            "Att man lägger till bild",
+            "Att man flyttar in rader med mellanslag eller tabbar för att visa vilken kod som hör ihop",
+            "Att man skriver in betydelsen "
+          ], correct: 1
+        },
+        { question: "Varför är strftime en enkel funktion att använda för tidsangivelse?",
+          options: [
+            "Den uppdaterar tiden automatiskt i realtid utan kod",
+            "Den är enkel eftersom man kan formatera datum och tid med tydliga formatkoder",
+            "Den översätter datum till alla språk automatiskt utan inställningar"
+          ], correct: 1
+        },
+        { question: "Hur ställer du in tidszon för New York?",
+          options: [
+            "timezone = New_York",
+            "Man ändrar klockan i BIOS så PHP följer New York-tid automatiskt.",
+            "America/New_York"
+          ], correct: 2
+        },
+        { question: "Vad menas med <?=$foo ?>=?",
+          options: [
+            "Kort form som betyder värdet av variabeln skrivs direkt i html.",
+            "Lång form som betyder värdet av variabeln skrivs direkt i html.",
+            "Betyder Enkla värde"
+          ], correct: 0
+        },
+        { question: "Vad är motsatsen till skalära värden?",
+          options: [
+            "Integer, Float, String och boolean",
+            "Array, Object och Resources",
+            "Null"
+          ], correct: 1
+        },
+        { question: "Vad skiljer en variabel från en konstant?",
+          options: [
+            "Variabel kan inte ändras och konstant är ett fast värde",
+            "Variabel kan ändras och konstant är ett lös värde",
+            "Variabel kan ändras och konstant är ett fast värde"
+          ], correct: 2
+        },
+        { question: "Hur funkar $foo = $bar = ”Hej”;",
+          options: [
+            "Tilldelningen sker från höger till vänster så både variabeln får värdet “hej”",
+            "Tilldelningen sker från vänster till höger så en variabeln får värdet “hej”",
+            "Tilldelningen sker inte så både variabeln får värdet “hej”"
+          ], correct: 0
+        },
+        { question: "Vem uppfann första versionen av PHP och när gjordes det?",
+          options: [
+            "Den introducerade år 2003 av Ramiro Rajs",
+            "Den introducerade år 1987 av Rasmus Lerdorf",
+            "Den introducerade år 1992 av Rasmus Lerdorf"
+          ], correct: 2
+        },
+        { question: "Vad är en page-controller?",
+          options: [
+            "En server som bara skickar filer utan att bearbeta logik",
+            "En databas som lagrar användardatan",
+            "En page-controller är en controller som hanterar logiken för en specifik webbsida."
+          ], correct: 2
+        },
+        { question: " Vad är Apache?",
+          options: [
+            "En populär webbserver som hanterar HTTP-förfrågningar",
+            "Ett programmeringsspråk för mobilappar",
+            "En typ av databas för att lagra användarinformation"
+          ], correct: 0
+        },
+        { question: "Vad menas med cachning på klientsidan?",
+          options: [
+            "Att webbläsaren sparar kopior av resurser lokalt för snabbare laddning",
+            "Att servern skickar alla filer på nytt varje gång sidan öppnas",
+            "Att webbplatsen raderar all användardata från datorn"
+          ], correct: 0
+        },
+        { question: "I den array som definieras så här: array(1, 2, 3) , vad har det tredje värdet för index?",
+          options: [
+            "3, pga den börjar med 1",
+            "2, pga den börjar med 0",
+            "4 pga den börjar med 2"
+          ], correct: 1
+        },
+        { question: "Nämn en sak som utmärker arrayer i PHP som inte garanterat finns i andra programmeringsspråk.",
+          options: [
+            "De kan automatiskt sortera sig själva i alfabetisk ordning utan kod",
+            "De kan bara innehålla siffror",
+            "Dynamisk längd, associativa arrayer."
+          ], correct: 2
+        },
+        { question: "Vad är MariaDB?",
+          options: [
+            "Ett programmeringsspråk för webbsidor",
+            "Ett relationsdatabashanteringssystem (RDBMS)",
+            "En typ av webbserver som hanterar HTTP-förfrågningar"
+          ], correct: 1
+        },
+        { question: "Vad är XAMPP?",
+          options: [
+            "Ett programmeringsspråk för mobilappar",
+            "Ett paket som innehåller Apache, MySQL/MariaDB, PHP och Perl för att köra en lokal webbserver",
+            "Ett molnbaserat lagringssystem för filer"
+          ], correct: 1
+        },
+        { question: "Vilken kom ut först, MariaDB eller MySQL",
+          options: [
+            "MySQL",
+            "MariaDB",
+            "Både kom ut tillsammans"
+          ], correct: 0
+        },
+        { question: "I den array som definieras så här: array(1, 2 0> 2, 3), vad har de tre värdena för index?",
+          options: [
+            "[3=>4,1=>2,4=>3]",
+            "[0=>1,2=>2,3=>3]",
+            "[1=>2,3=>4,4=>5]"
+          ], correct: 2
+        }
+      ];
+
+      // DOM-elementreferenser
+      const questionNumber = document.getElementById("question-number");
+      const questionTitle = document.getElementById("question-title");
+      const quizForm = document.getElementById("quiz-form");
+      const result = document.getElementById("result");
+      const submitBtn = document.getElementById("submit-btn");
+      const nextBtn = document.getElementById("next-btn");
+
+      let currentQuestion = 0;
+      let score = 0;
+
+      // Ladda en fråga
+      function loadQuestion() {
+        const q = quizData[currentQuestion];
+        questionNumber.textContent = `${currentQuestion + 1} / ${quizData.length}`;
+        questionTitle.textContent = q.question;
+        quizForm.innerHTML = "";
+
+        q.options.forEach((opt, index) => {
+          const label = document.createElement("label");
+          label.classList.add("option");
+          label.innerHTML = `
+            <input type="radio" name="answer" value="${index}">
+            <div style="padding-left:.3rem;">${opt}</div>
+          `;
+          quizForm.appendChild(label);
+        });
+
+        result.textContent = "";
+        submitBtn.style.display = "inline-block";
+        nextBtn.style.display = "none";
+      }
+
+      // Visuell markering när ett alternativ väljs
+      quizForm.addEventListener("change", (e) => {
+        document.querySelectorAll(".option").forEach(opt => opt.classList.remove("selected"));
+        const opt = e.target.closest(".option");
+        if (opt) opt.classList.add("selected");
+      });
+
+      // Svara-knappen
+      submitBtn.addEventListener("click", () => {
+        const selected = document.querySelector("input[name='answer']:checked");
+        if (!selected) {
+          result.textContent = "❗ Vänligen välj ett svar först.";
+          result.style.color = "orange";
+          return;
+        }
+
+        const answer = parseInt(selected.value, 10);
+        const correct = quizData[currentQuestion].correct;
+
+        if (answer === correct) {
+          result.textContent = "✅ RÄTT!";
+          result.style.color = "green";
+          score++;
+        } else {
+          result.textContent = `❌ FEL. Svar: \"${quizData[currentQuestion].options[correct]}\".`;
+          result.style.color = "red";
+        }
+
+        submitBtn.style.display = "none";
+        nextBtn.style.display = "inline-block";
+      });
+
+      // Nästa-knappen
+      nextBtn.addEventListener("click", () => {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+          loadQuestion();
+        } else {
+          questionTitle.textContent = "🎉 KLAR!";
+          quizForm.innerHTML = "";
+          result.textContent = `Resultat: ${score} Av ${quizData.length} frågor.`;
+          nextBtn.style.display = "none";
+          questionNumber.textContent = "Resultat 🎯";
+        }
+      });
+
+      // Starta quizet
+      loadQuestion();
+    });
+  </script>
+</body>
+</html>
+
